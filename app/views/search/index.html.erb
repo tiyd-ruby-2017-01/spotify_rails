@@ -1,0 +1,21 @@
+<% if @artist_id.nil? %>
+  <h1>No Artist found for <%= @search_term %></h1>
+<% else %>
+  <h1><%= @artist_name %></h1>
+  <% if @albums.empty? %>
+    <p>No albums found</p>
+  <% else %>
+
+    <ul>
+      <% @albums.uniq { |a| a[:name] }.each do |album| %>
+        <li class="album">
+          <%= image_tag album[:image] %>
+          <span class="name"><%= album[:name] %></span>
+        </li>
+      <% end %>
+    </ul>
+
+  <% end %>
+<% end %>
+
+<%= link_to "Back", root_path %>

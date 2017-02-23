@@ -1,0 +1,7 @@
+<h1>Welcome!</h1>
+
+<%= form_tag('/search', method: :get) do %>
+  <legend>Search for Artists Albums</legend>
+  <%= text_field_tag :search_term %>
+  <div><%= submit_tag 'Search' %></div>
+<% end %>
