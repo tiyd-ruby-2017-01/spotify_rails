@@ -1,12 +1,12 @@
 <% if @artist_id.nil? %>
   <h1>No Artist found for <%= @search_term %></h1>
 <% else %>
-  <h1><%= @artist_name %></h1>
+  <h1 class="artist-name"><%= @artist_name %></h1>
+
   <% if @albums.empty? %>
     <p>No albums found</p>
   <% else %>
-
-    <ul>
+    <ul class="albums">
       <% @albums.uniq { |a| a[:name] }.each do |album| %>
         <li class="album">
           <%= image_tag album[:image] %>
@@ -14,7 +14,6 @@
         </li>
       <% end %>
     </ul>
-
   <% end %>
 <% end %>
 

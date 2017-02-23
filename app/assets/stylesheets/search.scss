@@ -1,12 +1,18 @@
 // Place all the styles related to the search controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.album img {
-  vertical-align: middle;
-  margin: 5px;
-  width: 100px;
+
+.artist-name {
+  margin: 10px 0;
 }
 
-ul {
+ul.albums {
+  padding: 0;
   list-style: none;
+}
+
+.album img {
+  margin: 5px 0;
+  width: 100px;
+  vertical-align: middle;
 }
