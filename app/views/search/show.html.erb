@@ -1,15 +1,4 @@
-
-<script type="text/javascript">
-  var jid = '<%= @jid %>'
-
-  
-</script>
-
-
-
-
-
-<!-- <% if @artist_id.nil? %>
+<% if @artist_id.nil? %>
   <h1>No Artist found for <%= @search_term %></h1>
 <% else %>
   <h1 class="artist-name"><%= @artist_name %></h1>
@@ -18,14 +7,14 @@
     <p>No albums found</p>
   <% else %>
     <ul class="albums">
-      <% @albums.uniq { |a| a[:name] }.each do |album| %>
+      <% @albums.uniq { |a| a['name'] }.each do |album| %>
         <li class="album">
-          <%= image_tag album[:image] %>
-          <span class="name"><%= album[:name] %></span>
+          <%= image_tag album['image'] %>
+          <span class="name"><%= album['name'] %></span>
         </li>
       <% end %>
     </ul>
   <% end %>
-<% end %> -->
+<% end %>
 
 <%= link_to "Back", root_path %>

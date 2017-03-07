@@ -1,50 +1,27 @@
-require 'httparty'
 require 'byebug'
 
 class SearchController < ApplicationController
   def index
     @search_term = params[:search_term]
 
-    artist = get_artist
-
-    unless artist.nil?
-      @artist_id = artist[:id]
-      @artist_name = artist[:name]
-    end
-
-    if @artist_id.nil?
-      @albums = []
-    else
-      @albums = get_artist_albums
-    end
+    @jid = HardWorker.perform_async(@search_term)
   end
 
-  private
-  def get_artist
-    response = HTTParty.get("https://api.spotify.com/v1/search?q=#{@search_term}&type=artist")
+  def show
+    @jid = params[:id]
 
-    return nil if response.code != 200
+    redis = Redis.new
 
-    return nil if no_match_found?(response)
+    completed = redis.exists("jobs:#{@jid}:completed")
+    if completed
+      @search_term = redis.get("jobs:#{@jid}:search_term")
+      @artist = JSON.parse(redis.get("jobs:#{@jid}:artist"))
+      @albums = JSON.parse(redis.get("jobs:#{@jid}:albums"))
 
-    artist = response['artists']['items'].first
-    id = artist['id']
-    name = artist['name']
-
-    { id: id, name: name }
-  end
-
-  def get_artist_albums
-    response = HTTParty.get("https://api.spotify.com/v1/artists/#{@artist_id}/albums?limit=50")
-    response['items'].map do |album|
-      name = album['name']
-      image = album['images'][1]['url']
-
-      { name: name, image: image }
+      unless @artist.nil?
+        @artist_id = @artist['id']
+        @artist_name = @artist['name']
+      end
     end
-  end
-
-  def no_match_found?(response)
-    response['artists']['total'] == 0
   end
 end
